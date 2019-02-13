@@ -4,6 +4,7 @@ $this['satis.config_file']       = 'config.json';
 $this['gaufrette.adapter.class'] = 'Local';
 $this['gaufrette.options']       = array($this['app.data_dir']);
 $this['app.node_path']           = is_file('/usr/bin/node') ? '/usr/bin/node' : '/usr/local/bin/node';
+$this['app.php_binary_path']     = 'php7.1';
 
 $this['satis_runner'] = $this->share(function() {
     return new SatisAdmin\Runner\SatisRunner(
@@ -11,6 +12,7 @@ $this['satis_runner'] = $this->share(function() {
         $this['monolog'],
         $this['app.web_dir'],
         $this['app.bin_dir'],
-        $this['app.cache_dir']
+        $this['app.cache_dir'],
+        $this['app.php_binary_path']
     );
 });

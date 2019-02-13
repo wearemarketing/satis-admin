@@ -36,28 +36,35 @@ class SatisRunner implements RunnerInterface
     private $cacheDir;
 
     /**
+     * @var string
+     */
+    private $phpBinaryPath;
+
+    /**
      * @param ModelManager $manager
      * @param Logger       $logger
      * @param string       $outputDir
      * @param string       $binDir
      * @param string       $cacheDir
+     * @param string       $phpBinaryPath
      */
-    public function __construct(ModelManager $manager, Logger $logger, $outputDir, $binDir, $cacheDir)
+    public function __construct(ModelManager $manager, Logger $logger, $outputDir, $binDir, $cacheDir, $phpBinaryPath)
     {
         $this->manager   = $manager;
         $this->logger    = $logger;
         $this->outputDir = $outputDir;
         $this->binDir    = $binDir;
         $this->cacheDir  = $cacheDir;
+        $this->phpBinaryPath = $phpBinaryPath;
     }
 
     public function run()
     {
-        $configFile = tempnam($this->cacheDir . '/satis', 'satis-admin');
+        $configFile = @tempnam($this->cacheDir . '/satis', 'satis-admin');
         file_put_contents($configFile, $this->manager->getJson());
         $process = ProcessBuilder::create(
             [
-                'php',
+                $this->phpBinaryPath,
                 $this->binDir.'/satis',
                 'build',
                 $configFile,
