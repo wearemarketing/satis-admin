@@ -134,6 +134,7 @@ class Config implements \JsonSerializable
             'homepage'     => $this->getHomepage(),
             'require-all'  => $this->getRequireAll(),
             'repositories' => array_values($this->getRepositories()),
+            'archive' => $this->getArchive(),
         ];
     }
 
@@ -166,5 +167,13 @@ class Config implements \JsonSerializable
     {
         $metadata->addPropertyConstraint('name', new Assert\NotBlank);
         $metadata->addPropertyConstraint('homepage', new Assert\NotBlank);
+    }
+
+    private function getArchive()
+    {
+        return [
+            'directory' => 'dist',
+            'skip-dev' => true,
+        ];
     }
 }
